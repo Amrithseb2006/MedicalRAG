@@ -175,14 +175,17 @@ def health():
 
 @app.delete("/clear")
 def clear_index():
-    """Delete all vectors from the seekie-namespace."""
     try:
         from pinecone import Pinecone
         pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
-        index = pc.Index("seekie-rag")
-        index.delete(delete_all=True, namespace="seekie-namespace")
+
+        index = pc.Index("medirag-dense-py")  
+        index.delete(delete_all=True, namespace="example-namespace")  
+
         return {"status": "ok", "message": "Index cleared."}
+
     except Exception as e:
+        print("CLEAR ERROR:", str(e))  
         raise HTTPException(status_code=500, detail=str(e))
 
 
